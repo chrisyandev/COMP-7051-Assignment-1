@@ -2,16 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    private InputActionAsset m_DefaultInputActionAsset;
+    private Canvas m_MenuCanvas;
+    [SerializeField]
+    private TextMeshProUGUI m_RoundTimer;
 
+    [Space(20)]
+    [SerializeField]
+    private InputActionAsset m_DefaultInputActionAsset;
     [SerializeField]
     private InputActionReference m_StartGameAction;
 
-    private bool isInGame;
+    [Space(20)]
+    [SerializeField]
+    private Player m_PlayerScript;
+    [SerializeField]
+    private AIPaddle m_AiPaddle;
+    [SerializeField]
+    private Ball m_Ball;
+
+    private float DEFAULT_GAME_TIME_IN_SECONDS = 60.0f;
+    private bool isInGame = false;
 
     private void Awake()
     {
@@ -45,7 +60,7 @@ public class GameManager : MonoBehaviour
     {
         isInGame = true;
         Debug.Log("Started Game");
-        // Clear Menu UI
+        this.m_MenuCanvas.enabled = false;
         // Reset Game State
         // Start Pong Logic
     }
