@@ -6,11 +6,6 @@ using Math = System.Math;
 
 public class Player : MonoBehaviour
 {
-    // [SerializeField]
-    // private InputActionReference m_MoveUpAction;
-
-    // [SerializeField]
-    // private InputActionReference m_MoveDownAction;
 
     private InputActions m_inputActions;
     private InputAction m_movementAction;
