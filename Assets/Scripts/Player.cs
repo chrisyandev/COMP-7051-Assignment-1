@@ -1,10 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private InputActionReference m_MoveUpAction;
+
+    [SerializeField]
+    private InputActionReference m_MoveDownAction;
+    
+    private void OnEnable()
+    {
+        
+    }
+
+    // Start is called before the first frame update:w
+
     void Start()
     {
         
@@ -14,5 +27,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnMoveUp()
+    {
+
+    }
+
+    void OnMoveDown()
+    {
+
     }
 }

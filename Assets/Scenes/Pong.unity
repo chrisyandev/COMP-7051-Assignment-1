@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18179744, g: 0.22747034, b: 0.30742002, a: 1}
+  m_IndirectSpecularColor: {r: 0.181797, g: 0.22746964, b: 0.3074187, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -420,7 +420,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "COMP 7051 \nAssignment 1\n\nRichard Le - 5A"
+  m_text: "COMP 7051 \nAssignment 1\n\n\n\nRichard Le\nNorman Lim\nChris Yan\nParth
+    Chaturvedi\njaskaran chahal\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2b135d31f511c4e4b869424e73b941cf, type: 2}
   m_sharedMaterial: {fileID: -2449015049380446357, guid: 2b135d31f511c4e4b869424e73b941cf, type: 2}
@@ -447,8 +448,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1000,7 +1001,7 @@ Transform:
   m_GameObject: {fileID: 755546160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.23, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 75, y: 1, z: 75}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1538,6 +1539,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '
 
+
     L thumbstick,  W/S, D-Pad - Up/Down
 
 
@@ -1680,7 +1682,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.12
+  orthographic size: 10.1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

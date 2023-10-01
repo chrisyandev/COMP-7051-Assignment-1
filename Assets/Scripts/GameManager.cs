@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,8 +28,26 @@ public class GameManager : MonoBehaviour
     private float DEFAULT_GAME_TIME_IN_SECONDS = 60.0f;
     private bool isInGame = false;
 
+
+    private static GameManager _instance;
+
+    public static GameManager GetInstance()
+    {
+        if (_instance == null)
+        {
+            _instance = new GameManager();
+        }
+
+        return _instance;
+    }
+
+
+
     private void Awake()
     {
+
+        _instance = this;
+
         // Enable all action maps inside the default action asset.
         foreach (var actionMap in m_DefaultInputActionAsset.actionMaps)
         {
@@ -61,8 +79,14 @@ public class GameManager : MonoBehaviour
         isInGame = true;
         Debug.Log("Started Game");
         this.m_MenuCanvas.enabled = false;
+        m_StartGameAction.action.started -= OnStartGame;
         // Reset Game State
         // Start Pong Logic
+    }
+
+    public bool IsInGame()
+    {
+        return isInGame;
     }
 
     private void OnDestroy()
