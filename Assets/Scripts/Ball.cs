@@ -4,15 +4,45 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float speed = 10;
+
+    private Rigidbody rb;
+    private Vector3 lastFrameVelocity;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = transform.forward * speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        lastFrameVelocity = rb.velocity;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player Wall"))
+        {
+            transform.position = Vector3.zero;
+            rb.velocity = -transform.forward * speed;
+        }
+        else if (collision.gameObject.CompareTag("AI Wall"))
+        {
+            transform.position = Vector3.zero;
+            rb.velocity = transform.forward * speed;
+        }
+        else
+        {
+            Bounce(collision);
+        }
+    }
+
+    private void Bounce(Collision collision)
+    {
+        float speed = lastFrameVelocity.magnitude;
+        Vector3 collisionNormal = collision.contacts[0].normal;
+        Vector3 bounceDirection = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
+        rb.velocity = bounceDirection * speed;
     }
 }
