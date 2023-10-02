@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     private float timeLeft;
     private bool timerOn = false;
     private bool isInGame = false;
-
+    public bool isPvp;
 
     private static GameManager _instance;
 
@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
             actionMap.Enable();
         }
 
-        m_StartGameAction.action.started += OnStartGame;
     }
 
     // Start is called before the first frame update
@@ -182,5 +181,25 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
 
+    }
+
+    //On click function for Player vs Player button
+    public void OnPlayerVsPlayer()
+    {
+        isPvp = true;
+        isInGame = true;
+
+        Debug.Log("Started PvP Game");
+        this.m_MenuCanvas.enabled = false;        
+    }
+
+    //On click function for Player vs AI button
+    public void OnPlayerVsAI()
+    {
+        isPvp = false;
+        isInGame = true;
+
+        Debug.Log("Started PvAI Game");
+        this.m_MenuCanvas.enabled = false;        
     }
 }
