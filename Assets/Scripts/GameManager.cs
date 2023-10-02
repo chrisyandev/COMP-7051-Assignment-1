@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager GetInstance()
     {
-        if ( _instance == null )
+        if (_instance == null)
         {
             _instance = new GameManager();
         }
