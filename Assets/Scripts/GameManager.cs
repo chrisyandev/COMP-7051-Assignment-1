@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,14 +12,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Canvas m_TimerCanvas;
 
-
-    public TMP_Text Player1Score;
-    public TMP_Text Player2Score;
-    public TMP_Text RoundTimer;
-
-
-    //[SerializeField]
-    //private TextMeshProUGUI m_RoundTimer;
 
     [Space( 20 )]
     [SerializeField]
@@ -34,7 +27,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Ball m_Ball;
 
-    private float DEFAULT_GAME_TIME_IN_SECONDS = 60.0f;
+
+    [SerializeField] private TMP_Text Player1ScoreDisplay;
+    [SerializeField] private TMP_Text Player2ScoreDisplay;
+    [SerializeField] private TMP_Text RoundTimerDisplay;
+    [SerializeField] private TMP_Text WinnerDisplay;
+
+    [SerializeField] private int Player1Score;
+    [SerializeField] private int Player2Score;
+
+    private float DEFAULT_GAME_TIME_IN_SECONDS = 20.0f;
     private float timeLeft;
     private bool timerOn = false;
 
@@ -73,11 +75,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         timeLeft = DEFAULT_GAME_TIME_IN_SECONDS;
-        Player1Score.text = "12";
-        Player2Score.text = "69";
-
         timerOn = true;
-        //RoundTimer.text = "00:12";
+
+        Player1Score = 0;
+        Player2Score = 0;
+
     }
 
     // Update is called once per frame
@@ -88,24 +90,70 @@ public class GameManager : MonoBehaviour
             if ( timeLeft > 0 )
             {
                 timeLeft -= Time.deltaTime;
-                updateTimer( timeLeft );
+                UpdateTimer( timeLeft );
             }
             else
             {
                 Debug.Log( "Time up!" );
                 timeLeft = 0;
                 timerOn = false;
+                AnnounceWinner();
+                //ResetGame();
             }
         }
     }
 
-    void updateTimer( float currentTime )
+    void AnnounceWinner()
+    {
+        if ( Player1Score > Player2Score )
+        {
+            WinnerDisplay.text = "Player 1 Wins.";
+        }
+        else
+        {
+            WinnerDisplay.text = "Player 2 Wins.";
+
+            // If AI enabled
+            //WinnerDisplay.text = "You lost to AI noob.";
+        }
+    }
+
+    private void ResetGame()
+    {
+        // To-do
+        WinnerDisplay.text = "";
+        Player1Score = 0;
+        Player2Score = 0;
+    }
+
+    private void StartGame()
+    {
+        // To-do
+    }
+
+
+    public static void UpdateScore( int PlayerID )
+    {
+        if ( PlayerID == 1 )
+        {
+            _instance.Player1Score++;
+            _instance.Player1ScoreDisplay.text = String.Format( "{0:00}", _instance.Player1Score );
+            
+        }
+        else
+        {
+            _instance.Player2Score++;
+            _instance.Player2ScoreDisplay.text = String.Format( "{0:00}", _instance.Player2Score );
+        }
+    }
+
+    void UpdateTimer( float currentTime )
     {
         currentTime += 1;
         float minutes = Mathf.FloorToInt( currentTime / 60 );
         float seconds = Mathf.FloorToInt( currentTime % 60 );
 
-        RoundTimer.text = string.Format( "{0:00} : {1:00}", minutes, seconds );
+        RoundTimerDisplay.text = string.Format( "{0:00} : {1:00}", minutes, seconds );
 
     }
 
