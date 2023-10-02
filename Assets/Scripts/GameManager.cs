@@ -28,18 +28,20 @@ public class GameManager : MonoBehaviour
     private Ball m_Ball;
 
 
-    [SerializeField] private TMP_Text Player1ScoreDisplay;
-    [SerializeField] private TMP_Text Player2ScoreDisplay;
-    [SerializeField] private TMP_Text RoundTimerDisplay;
-    [SerializeField] private TMP_Text WinnerDisplay;
+    [SerializeField]
+    private TMP_Text Player1ScoreDisplay;
+    [SerializeField]
+    private TMP_Text Player2ScoreDisplay;
+    [SerializeField]
+    private TMP_Text RoundTimerDisplay;
+    [SerializeField]
+    private TMP_Text WinnerDisplay;
 
-    [SerializeField] private int Player1Score;
-    [SerializeField] private int Player2Score;
-
-    private float DEFAULT_GAME_TIME_IN_SECONDS = 20.0f;
+    private int Player1Score;
+    private int Player2Score;
+    private float DEFAULT_GAME_TIME_IN_SECONDS = 30.0f;
     private float timeLeft;
     private bool timerOn = false;
-
     private bool isInGame = false;
 
 

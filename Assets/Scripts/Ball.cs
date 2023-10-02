@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -10,7 +8,6 @@ public class Ball : MonoBehaviour
     private Rigidbody rb;
     private Vector3 lastFrameVelocity;
 
-    private Coroutine activeCorutine;
     private float lockoutTime;
     private bool canBallMove = true;
 
@@ -31,7 +28,10 @@ public class Ball : MonoBehaviour
         {
             canBallMove = true;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
-            rb.velocity = lastFrameVelocity ;
+
+            // Randomly get  -1 or 1. Ball randomly flies in either P1 or P2 Direction. 
+            int randomDirection = Random.Range( 0, 2 ) * 2 - 1;
+            rb.velocity = transform.forward * m_Speed * randomDirection;
         }
     }
 
@@ -46,20 +46,18 @@ public class Ball : MonoBehaviour
         {
             // Update P2 Score since ball hit Player1 Goal
             GameManager.UpdateScore( 2 );
-            lockoutTime = Time.time + 3.0f;
+            lockoutTime = Time.time + 1.5f;
             transform.position = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeAll;
-            //rb.velocity = transform.forward * m_Speed;
             canBallMove = false;
         }
         else if (collision.gameObject.CompareTag("AI Wall"))
         {
             // Update P1 Score since ball hit Player2 Goal
             GameManager.UpdateScore( 1 );
-            lockoutTime = Time.time + 3.0f;
+            lockoutTime = Time.time + 1.5f;
             transform.position = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeAll;
-            //rb.velocity = -transform.forward * m_Speed;
             canBallMove = false;
         }
         else
