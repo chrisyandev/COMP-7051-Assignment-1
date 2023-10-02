@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public float speed = 10;
+    [SerializeField]
+    private float m_Speed = 10.0f;
 
     private Rigidbody rb;
     private Vector3 lastFrameVelocity;
@@ -12,7 +13,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * speed;
+        rb.velocity = transform.forward * m_Speed;
     }
 
     void Update()
@@ -25,12 +26,12 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag("Player Wall"))
         {
             transform.position = Vector3.zero;
-            rb.velocity = -transform.forward * speed;
+            rb.velocity = -transform.forward * m_Speed;
         }
         else if (collision.gameObject.CompareTag("AI Wall"))
         {
             transform.position = Vector3.zero;
-            rb.velocity = transform.forward * speed;
+            rb.velocity = transform.forward * m_Speed;
         }
         else
         {
