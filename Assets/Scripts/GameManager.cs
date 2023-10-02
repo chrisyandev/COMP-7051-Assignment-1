@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
     private Ball m_Ball;
 
     private float DEFAULT_GAME_TIME_IN_SECONDS = 60.0f;
-    private bool isInGame = false;
-
+    private bool isInGame = false;    
+    
+    public bool isPvp;
 
     private static GameManager _instance;
 
@@ -54,7 +55,6 @@ public class GameManager : MonoBehaviour
             actionMap.Enable();
         }
 
-        m_StartGameAction.action.started += OnStartGame;
     }
 
     // Start is called before the first frame update
@@ -74,16 +74,6 @@ public class GameManager : MonoBehaviour
         isInGame = toSet;
     }
 
-    public void OnStartGame(InputAction.CallbackContext context)
-    {
-        isInGame = true;
-        Debug.Log("Started Game");
-        this.m_MenuCanvas.enabled = false;
-        m_StartGameAction.action.started -= OnStartGame;
-        // Reset Game State
-        // Start Pong Logic
-    }
-
     public bool IsInGame()
     {
         return isInGame;
@@ -91,5 +81,25 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+    }
+
+    //On click function for Player vs Player button
+    public void OnPlayerVsPlayer()
+    {
+        isPvp = true;
+        isInGame = true;
+
+        Debug.Log("Started PvP Game");
+        this.m_MenuCanvas.enabled = false;        
+    }
+
+    //On click function for Player vs AI button
+    public void OnPlayerVsAI()
+    {
+        isPvp = false;
+        isInGame = true;
+
+        Debug.Log("Started PvAI Game");
+        this.m_MenuCanvas.enabled = false;        
     }
 }
