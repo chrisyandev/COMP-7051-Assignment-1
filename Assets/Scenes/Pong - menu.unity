@@ -1177,6 +1177,7 @@ MonoBehaviour:
   m_PlayerScript: {fileID: 0}
   m_AiPaddle: {fileID: 0}
   m_Ball: {fileID: 0}
+  isPvp: 0
 --- !u!4 &767739085
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,7 +1549,7 @@ GameObject:
   - component: {fileID: 1316069723}
   - component: {fileID: 1316069722}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PVP Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1618,7 +1619,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1316069723}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 767739084}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnPlayerVsPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1316069723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1984,7 +1997,7 @@ GameObject:
   - component: {fileID: 1537375770}
   - component: {fileID: 1537375769}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: PVC Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2054,7 +2067,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1537375770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 767739084}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnPlayerVsAI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1537375770
 MonoBehaviour:
   m_ObjectHideFlags: 0
