@@ -46,4 +46,8 @@ public class Ball : MonoBehaviour
         Vector3 bounceDirection = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
         rb.velocity = bounceDirection * speed;
     }
+
+    public void SetSpeed(float speed) { // example cmd for console
+        this.m_Speed = speed;
+    }
 }
