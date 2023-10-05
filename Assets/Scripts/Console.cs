@@ -7,12 +7,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+
 
 public class Console : MonoBehaviour
 {
 
-    private Dictionary<string, Action<string>> cmdList;
+    // if this is over-engineered, i'll change to switch-case.
+    private Dictionary<string, Action<string>> cmdList; 
 
+    // lots of references below.
+    // can easily just learn the hierachy
+    // and store the parent console, shud i?
+    [SerializeField]
+    private GameObject m_consoleCanvas;  
     [SerializeField]
     private TMP_InputField m_cmdLine;
 
@@ -22,12 +30,19 @@ public class Console : MonoBehaviour
     [SerializeField]
     private GameObject m_background; 
 
+    private InputActions m_inputActions;
+    private InputAction m_toggleConsoleAction;
+
     private void Awake() {
         m_cmdLine.onEndEdit.AddListener(processCmd);
         cmdList = new Dictionary<string, Action<string>>()
         {
-            ["colour"] = changeBGColour
+            ["colour"] = changeBGColour,
+            ["setBallSpd"] = setBallSpeed
         };
+        m_inputActions = new InputActions();
+        m_toggleConsoleAction = m_inputActions.Console.ToggleConsole;
+
     }
 
     // Start is called before the first frame update
@@ -36,10 +51,20 @@ public class Console : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (!m_cmdLine.isFocused && m_toggleConsoleAction.triggered)
+            m_consoleCanvas.SetActive( !m_consoleCanvas.activeSelf );
+    }
+
+    private void OnEnable()
+    {
+        m_inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        m_inputActions.Disable();
     }
 
     private void processCmd(string input) {
@@ -78,6 +103,11 @@ public class Console : MonoBehaviour
 
     private void setBallSpeed(string speed) {
         // parse here and set the ball's speed.
+        float spd = 10.0f;
+        bool success = Single.TryParse(speed, out spd);
+        if (success)
+            GameObject.FindWithTag("Ball").GetComponent<Ball>().SetSpeed(spd);
+        
     }
 
 }

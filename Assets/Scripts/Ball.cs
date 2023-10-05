@@ -49,5 +49,6 @@ public class Ball : MonoBehaviour
 
     public void SetSpeed(float speed) { // example cmd for console
         this.m_Speed = speed;
+        Debug.Log("BALL SPEED SET!!!! BATCHEST: " + speed);
     }
 }
