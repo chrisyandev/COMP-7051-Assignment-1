@@ -16,6 +16,8 @@ public class Console : MonoBehaviour
     // if this is over-engineered, i'll change to switch-case.
     private Dictionary<string, Action<string>> cmdList; 
 
+    private string buffer;
+
     // lots of references below.
     // can easily just learn the hierachy
     // and store the parent console, shud i?
@@ -35,6 +37,7 @@ public class Console : MonoBehaviour
 
     private void Awake() {
         m_cmdLine.onEndEdit.AddListener(processCmd);
+        buffer = "";
         cmdList = new Dictionary<string, Action<string>>()
         {
             ["colour"] = changeBGColour,
@@ -55,6 +58,12 @@ public class Console : MonoBehaviour
     {
         if (!m_cmdLine.isFocused && m_toggleConsoleAction.triggered)
             m_consoleCanvas.SetActive( !m_consoleCanvas.activeSelf );
+
+        if (m_cmdLine.isFocused && Input.GetKeyDown(KeyCode.UpArrow))
+            m_cmdLine.SetTextWithoutNotify(buffer);
+
+
+
     }
 
     private void OnEnable()
@@ -72,6 +81,7 @@ public class Console : MonoBehaviour
         m_cmdHistory.SetText(m_cmdHistory.text + input +"\n"); 
         m_cmdLine.SetTextWithoutNotify("");
 
+        buffer = input;
         input = input.Trim();
         string cmd = input[..input.IndexOf(' ')];
         string args = input[(input.IndexOf(' ') + 1)..];
@@ -96,7 +106,7 @@ public class Console : MonoBehaviour
     private void changeBGColour(string hexCode) {
         Color newColour;
         if (ColorUtility.TryParseHtmlString(hexCode, out newColour))
-            m_background.GetComponent<UnityEngine.UI.Image>().color = newColour;
+            m_background.GetComponent<Renderer>().material.color = newColour;
         else
             printError("INVALID HEX CODE");
     }
