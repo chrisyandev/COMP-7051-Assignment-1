@@ -73,6 +73,7 @@ public class Ball : MonoBehaviour
 
     public void SetSpeed(float speed) { // example cmd for console
         rb.velocity = lastFrameVelocity * speed;
+        m_Speed = speed;
         Debug.Log("BALL SPEED SET!!!! BATCHEST: " + speed);
     }
 }
