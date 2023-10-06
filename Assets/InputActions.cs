@@ -35,6 +35,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""UpDownPlayer2"",
+                    ""type"": ""Value"",
+                    ""id"": ""aa492daa-83fe-4e5e-bf7c-ca6527dde010"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -103,6 +112,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UpDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""W/S"",
+                    ""id"": ""c245c8d2-cbc8-43f4-aad9-9f492e3d8ece"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDownPlayer2"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""6c90279e-1a62-4664-b6e4-b86a64f118be"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDownPlayer2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6ba4b649-e3e6-44ea-bcf3-45b282f16577"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDownPlayer2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -151,6 +193,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_UpDown = m_Movement.FindAction("UpDown", throwIfNotFound: true);
+        m_Movement_UpDownPlayer2 = m_Movement.FindAction("UpDownPlayer2", throwIfNotFound: true);
         // Console
         m_Console = asset.FindActionMap("Console", throwIfNotFound: true);
         m_Console_ToggleConsole = m_Console.FindAction("ToggleConsole", throwIfNotFound: true);
@@ -216,11 +259,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_UpDown;
+    private readonly InputAction m_Movement_UpDownPlayer2;
     public struct MovementActions
     {
         private @InputActions m_Wrapper;
         public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @UpDown => m_Wrapper.m_Movement_UpDown;
+        public InputAction @UpDownPlayer2 => m_Wrapper.m_Movement_UpDownPlayer2;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +278,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UpDown.started += instance.OnUpDown;
             @UpDown.performed += instance.OnUpDown;
             @UpDown.canceled += instance.OnUpDown;
+            @UpDownPlayer2.started += instance.OnUpDownPlayer2;
+            @UpDownPlayer2.performed += instance.OnUpDownPlayer2;
+            @UpDownPlayer2.canceled += instance.OnUpDownPlayer2;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -240,6 +288,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UpDown.started -= instance.OnUpDown;
             @UpDown.performed -= instance.OnUpDown;
             @UpDown.canceled -= instance.OnUpDown;
+            @UpDownPlayer2.started -= instance.OnUpDownPlayer2;
+            @UpDownPlayer2.performed -= instance.OnUpDownPlayer2;
+            @UpDownPlayer2.canceled -= instance.OnUpDownPlayer2;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -306,6 +357,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnUpDown(InputAction.CallbackContext context);
+        void OnUpDownPlayer2(InputAction.CallbackContext context);
     }
     public interface IConsoleActions
     {

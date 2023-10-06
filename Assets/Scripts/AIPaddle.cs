@@ -46,7 +46,8 @@ public class AIPaddle : MonoBehaviour
             if (ballComponentRef != null)
             {
                 float zDeltaFromBall = ballComponentRef.gameObject.transform.position.z - transform.position.z;
-                transform.Translate(new Vector3(0, 0, zDeltaFromBall).normalized * m_AIPaddleSpeed * Time.fixedDeltaTime); 
+                transform.Translate(new Vector3(0, 0, zDeltaFromBall).normalized * m_AIPaddleSpeed * Time.fixedDeltaTime);
+                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z, -5.5f, 5.5f));
             }
         }
     }

@@ -23,26 +23,28 @@ public class Ball : MonoBehaviour
         {
             lastFrameVelocity = rb.velocity;
         }
-        
-        if (!canBallMove && Time.time >= lockoutTime )
+
+        if (!canBallMove && Time.time >= lockoutTime)
         {
             canBallMove = true;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
 
-            // Randomly get  -1 or 1. Ball randomly flies in either P1 or P2 Direction. 
-            int randomDirection = Random.Range( 0, 2 ) * 2 - 1;
-            rb.velocity = transform.forward * m_Speed * randomDirection;
+            int randomDirection = Random.Range(0, 2) * 2 - 1;
+            SetStartVelocity();
+        }
+    }
+    private void SetStartVelocity()
+    {
+        rb.velocity = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y).normalized * m_Speed;
+        while (Mathf.Abs(Vector3.Angle(rb.velocity, Vector3.forward)) < 30f)
+        {
+            rb.velocity = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y).normalized * m_Speed;
         }
     }
 
-    private void SetStartVelocity()
+    private void OnTriggerEnter(Collider collider)
     {
-        rb.velocity = transform.forward * m_Speed;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player Wall"))
+        if (collider.gameObject.CompareTag("Player Wall"))
         {
             // Update P2 Score since ball hit Player1 Goal
             GameManager.UpdateScore( 2 );
@@ -51,7 +53,7 @@ public class Ball : MonoBehaviour
             rb.constraints = RigidbodyConstraints.FreezeAll;
             canBallMove = false;
         }
-        else if (collision.gameObject.CompareTag("AI Wall"))
+        else if (collider.gameObject.CompareTag("AI Wall"))
         {
             // Update P1 Score since ball hit Player2 Goal
             GameManager.UpdateScore( 1 );
@@ -60,23 +62,17 @@ public class Ball : MonoBehaviour
             rb.constraints = RigidbodyConstraints.FreezeAll;
             canBallMove = false;
         }
-        else
-        {
-            Bounce(collision);
-        }
     }
-    
 
     private void Bounce(Collision collision)
     {
-        float speed = lastFrameVelocity.magnitude;
-        Vector3 collisionNormal = collision.contacts[0].normal;
-        Vector3 bounceDirection = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
-        rb.velocity = bounceDirection * speed;
+        Vector3 collisionNormal = collision.GetContact(0).normal;
+        Vector3 bounceDirection = Vector3.Reflect(rb.velocity.normalized, collisionNormal);
+        rb.velocity = bounceDirection * m_Speed;
     }
 
     public void SetSpeed(float speed) { // example cmd for console
-        this.m_Speed = speed;
+        rb.velocity = lastFrameVelocity * speed;
         Debug.Log("BALL SPEED SET!!!! BATCHEST: " + speed);
     }
 }

@@ -57,7 +57,12 @@ public class Console : MonoBehaviour
     void Update()
     {
         if (!m_cmdLine.isFocused && m_toggleConsoleAction.triggered)
+        {
             m_consoleCanvas.SetActive( !m_consoleCanvas.activeSelf );
+            if (m_consoleCanvas.activeSelf)
+            {
+            }
+        }
 
         if (m_cmdLine.isFocused && Input.GetKeyDown(KeyCode.UpArrow))
             m_cmdLine.SetTextWithoutNotify(buffer);

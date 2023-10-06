@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Player m_PlayerScript;
     [SerializeField]
+    private Player2 m_Player2Script;
+    [SerializeField]
     private AIPaddle m_AiPaddle;
     [SerializeField]
     private Ball m_Ball;
@@ -37,10 +39,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TMP_Text WinnerDisplay;
 
-    private int Player1Score;
-    private int Player2Score;
+    private int Player1Score = 0;
+    private int Player2Score = 0;
     private float DEFAULT_GAME_TIME_IN_SECONDS = 30.0f;
-    private float timeLeft;
+    private float timeLeft = 30.0f;
     private bool timerOn = false;
     private bool isInGame = false;
     public bool isPvp;
@@ -69,7 +71,6 @@ public class GameManager : MonoBehaviour
         {
             actionMap.Enable();
         }
-
     }
 
     // Start is called before the first frame update
@@ -99,39 +100,44 @@ public class GameManager : MonoBehaviour
                 timeLeft = 0;
                 timerOn = false;
                 AnnounceWinner();
-                //ResetGame();
+                Invoke("ResetGame", 3.0f);
             }
         }
     }
 
     void AnnounceWinner()
     {
+        WinnerDisplay.gameObject.SetActive(true);
         if ( Player1Score > Player2Score )
         {
-            WinnerDisplay.text = "Player 1 Wins.";
+            WinnerDisplay.text = "Blue Wins!!!!!!!";
+        }
+        else if (Player1Score == Player2Score )
+        {
+            WinnerDisplay.text = "TIE!";
         }
         else
         {
-            WinnerDisplay.text = "Player 2 Wins.";
-
-            // If AI enabled
-            //WinnerDisplay.text = "You lost to AI noob.";
+            WinnerDisplay.text = "Red Wins!!!!!!!";
         }
+
+        m_Ball.enabled = false;
     }
 
-    private void ResetGame()
+    public void ResetGame()
     {
-        // To-do
-        WinnerDisplay.text = "";
-        Player1Score = 0;
-        Player2Score = 0;
-    }
+        isInGame = false;
+        m_MenuCanvas.enabled = true;
+        m_AiPaddle.enabled = false;
+        m_Player2Script.enabled = false;
+        m_Ball.enabled = false;
+        WinnerDisplay.gameObject.SetActive(false);
+        timeLeft = DEFAULT_GAME_TIME_IN_SECONDS;
 
-    private void StartGame()
-    {
-        // To-do
+        m_PlayerScript.gameObject.transform.position = new Vector3(7f, 0.1f, 0);
+        m_AiPaddle.gameObject.transform.position = new Vector3(-7f, 0.1f, 0);
+        m_Ball.transform.position = new Vector3(0, 0, 0);
     }
-
 
     public static void UpdateScore( int PlayerID )
     {
@@ -163,14 +169,22 @@ public class GameManager : MonoBehaviour
         isInGame = toSet;
     }
 
-    public void OnStartGame( InputAction.CallbackContext context )
+    public void OnStartGame()
     {
         isInGame = true;
         Debug.Log( "Started Game" );
         this.m_MenuCanvas.enabled = false;
-        m_StartGameAction.action.started -= OnStartGame;
-        // Reset Game State
-        // Start Pong Logic
+        timeLeft = DEFAULT_GAME_TIME_IN_SECONDS;
+        timerOn = true;
+
+        Player1ScoreDisplay.text = "00";
+        Player2ScoreDisplay.text = "00";
+        Invoke("EnableBall", 2.0f);
+    }
+
+    public void EnableBall()
+    {
+        m_Ball.enabled = true;
     }
 
     public bool IsInGame()
@@ -186,20 +200,26 @@ public class GameManager : MonoBehaviour
     //On click function for Player vs Player button
     public void OnPlayerVsPlayer()
     {
+        ResetGame();
         isPvp = true;
         isInGame = true;
+        m_Player2Script.enabled = true;
 
         Debug.Log("Started PvP Game");
-        this.m_MenuCanvas.enabled = false;        
+        this.m_MenuCanvas.enabled = false;
+        OnStartGame();
     }
 
     //On click function for Player vs AI button
     public void OnPlayerVsAI()
     {
+        ResetGame();
         isPvp = false;
         isInGame = true;
+        m_AiPaddle.enabled = true;
 
         Debug.Log("Started PvAI Game");
-        this.m_MenuCanvas.enabled = false;        
+        this.m_MenuCanvas.enabled = false;
+        OnStartGame();
     }
 }
