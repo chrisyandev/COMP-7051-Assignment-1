@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 lastFrameVelocity;
+    private Vector3 directionBeforeCollision;
+    private Vector3 collisionNormal;
 
     private float lockoutTime;
     private bool canBallMove = true;
@@ -64,15 +66,30 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void Bounce(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        Vector3 collisionNormal = collision.GetContact(0).normal;
-        Vector3 bounceDirection = Vector3.Reflect(rb.velocity.normalized, collisionNormal);
+        directionBeforeCollision = lastFrameVelocity.normalized;
+        collisionNormal = collision.GetContact(0).normal;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        ForceBounce();
+        Debug.Log("OnCollisionStay");
+    }
+
+    private void ForceBounce()
+    {
+        Vector3 bounceDirection = Vector3.Reflect(directionBeforeCollision, collisionNormal);
         rb.velocity = bounceDirection * m_Speed;
     }
 
     public void SetSpeed(float speed) { // example cmd for console
-        rb.velocity = lastFrameVelocity * speed;
+        if (rb)
+        {
+            rb.velocity = lastFrameVelocity.normalized * speed;
+        }
+        
         m_Speed = speed;
         Debug.Log("BALL SPEED SET!!!! BATCHEST: " + speed);
     }
