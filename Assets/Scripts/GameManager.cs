@@ -133,6 +133,8 @@ public class GameManager : MonoBehaviour
         m_Ball.enabled = false;
         WinnerDisplay.gameObject.SetActive(false);
         timeLeft = DEFAULT_GAME_TIME_IN_SECONDS;
+        Player1Score = 0;
+        Player2Score = 0;
 
         m_PlayerScript.gameObject.transform.position = new Vector3(7f, 0.1f, 0);
         m_AiPaddle.gameObject.transform.position = new Vector3(-7f, 0.1f, 0);

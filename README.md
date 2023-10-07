@@ -2,7 +2,11 @@
 Pong Game 
 
 Richard Le
+
 Norman Lim 
+
 Jaskaran Chahal
+
 Parth Chaturvedi
+
 Chris Yan
