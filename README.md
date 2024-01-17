@@ -1,12 +1,11 @@
-# COMP-7051-Assignment-1
-Pong Game 
+# Pong3D
 
-Richard Le
+Video Showcase: https://youtu.be/jOJiQNArqy8
 
-Norman Lim 
+Created by:
 
-Jaskaran Chahal
-
-Parth Chaturvedi
-
-Chris Yan
+- Richard Le
+- Norman Lim 
+- Jaskaran Chahal
+- Parth Chaturvedi
+- Chris Yan
